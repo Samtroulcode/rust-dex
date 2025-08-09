@@ -1,6 +1,6 @@
 use colored::*;
 use std::collections::{HashMap, HashSet};
-use std::io::{self};
+use std::io::{self, Write};
 mod gen1;
 
 type Pokedex = HashMap<String, HashSet<String>>;
@@ -145,4 +145,8 @@ fn main() {
     } else {
         println!("Affichage du Pokédex annulé.");
     }
+
+    println!("\nAppuyez sur Entrée pour quitter...");
+    io::stdout().flush().unwrap(); // s'assurer que le texte s'affiche avant de bloquer
+    let _ = io::stdin().read_line(&mut String::new());
 }
