@@ -1,7 +1,11 @@
 use colored::*;
 use std::collections::{HashMap, HashSet};
 use std::io::{self, Write};
-mod gen1;
+
+pub mod gen1;
+pub mod pokemon;
+
+pub use crate::pokemon::Pokemon;
 
 type Pokedex = HashMap<String, HashSet<String>>;
 
@@ -87,21 +91,6 @@ fn add_pokemon_from_input(dex: &mut Pokedex) {
         .to_string();
 
     add_pokemon(dex, &p_type, &nom);
-}
-
-#[derive(Debug)]
-struct Pokemon {
-    nom: String,
-    p_type: String,
-}
-
-impl Pokemon {
-    fn new(nom: &str, p_type: &str) -> Self {
-        Self {
-            nom: nom.to_string(),
-            p_type: p_type.to_string(),
-        }
-    }
 }
 
 fn main() {

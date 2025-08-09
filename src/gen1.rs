@@ -1,4 +1,4 @@
-use crate::Pokemon;
+use crate::pokemon::Pokemon;
 
 pub fn gen1_pokedex() -> Vec<Pokemon> {
     vec![
