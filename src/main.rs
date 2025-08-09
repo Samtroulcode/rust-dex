@@ -88,6 +88,7 @@ fn add_pokemon_from_input(dex: &mut Pokedex) {
         .expect("Erreur de lecture")
         .expect("Erreur de lecture")
         .trim()
+        .to_lowercase()
         .to_string();
 
     add_pokemon(dex, &p_type, &nom);
@@ -100,42 +101,31 @@ fn main() {
     let total_pokemon: usize = dex.values().map(|set| set.len()).sum();
 
     println!("Pokedex initialisé avec les {total_pokemon} Pokémon de la gen 1 !");
+    loop {
+        println!(
+            "\nBienvenue dans le pokedex ! \n\n1 : Afficher le pokedex  2: Ajouter un pokemon  3: Quitter le programme\n\nVotre choix :"
+        );
 
-    println!("Voulez-vous ajouter un Pokémon ? y/n");
+        let usr_choice = io::stdin()
+            .lines()
+            .next()
+            .expect("Erreur de lecture")
+            .expect("Erreur de lecture");
 
-    let add_pokemon = io::stdin()
-        .lines()
-        .next()
-        .expect("Erreur de lecture")
-        .expect("Erreur de lecture")
-        .trim()
-        .to_lowercase();
-
-    if add_pokemon == "y" {
-        add_pokemon_from_input(&mut dex);
-        println!("Pokémon ajouté avec succès !");
-    } else {
-        println!("Aucun Pokémon ajouté.");
+        match usr_choice.trim().parse::<u8>() {
+            Ok(1) => {
+                println!("Affichage du Pokédex :");
+                print_pokedex(&dex);
+            }
+            Ok(2) => {
+                add_pokemon_from_input(&mut dex);
+                println!("\nPokémon ajouté avec succès !");
+            }
+            Ok(3) => {
+                break;
+            }
+            _ => println!("\nChoix invalide, veuillez réessayer."),
+        }
     }
-
-    println!("Afficher les pokemons ? y/n");
-
-    let display_pokemon = io::stdin()
-        .lines()
-        .next()
-        .expect("Erreur de lecture")
-        .expect("Erreur de lecture")
-        .trim()
-        .to_lowercase();
-
-    if display_pokemon == "y" {
-        println!("Affichage du Pokédex :");
-        print_pokedex(&dex);
-    } else {
-        println!("Affichage du Pokédex annulé.");
-    }
-
-    println!("\nAppuyez sur Entrée pour quitter...");
-    io::stdout().flush().unwrap(); // s'assurer que le texte s'affiche avant de bloquer
-    let _ = io::stdin().read_line(&mut String::new());
+    println!("Fermeture du programme...");
 }
