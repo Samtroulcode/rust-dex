@@ -67,6 +67,28 @@ fn init_pokedex() -> Pokedex {
     dex
 }
 
+fn add_pokemon_from_input(dex: &mut Pokedex) {
+    println!("Entrez le nom du Pokémon :");
+    let nom = io::stdin()
+        .lines()
+        .next()
+        .expect("Erreur de lecture")
+        .expect("Erreur de lecture")
+        .trim()
+        .to_string();
+
+    println!("Entrez le type du Pokémon :");
+    let p_type = io::stdin()
+        .lines()
+        .next()
+        .expect("Erreur de lecture")
+        .expect("Erreur de lecture")
+        .trim()
+        .to_string();
+
+    add_pokemon(dex, &p_type, &nom);
+}
+
 #[derive(Debug)]
 struct Pokemon {
     nom: String,
@@ -84,11 +106,28 @@ impl Pokemon {
 
 fn main() {
     println!("initialisation du pokedex...");
-    let dex = init_pokedex();
+    let mut dex = init_pokedex();
 
     let total_pokemon: usize = dex.values().map(|set| set.len()).sum();
 
-    println!("Pokedex initialisé avec {total_pokemon} Pokémon !");
+    println!("Pokedex initialisé avec les {total_pokemon} Pokémon de la gen 1 !");
+
+    println!("Voulez-vous ajouter un Pokémon ? y/n");
+
+    let add_pokemon = io::stdin()
+        .lines()
+        .next()
+        .expect("Erreur de lecture")
+        .expect("Erreur de lecture")
+        .trim()
+        .to_lowercase();
+
+    if add_pokemon == "y" {
+        add_pokemon_from_input(&mut dex);
+        println!("Pokémon ajouté avec succès !");
+    } else {
+        println!("Aucun Pokémon ajouté.");
+    }
 
     println!("Afficher les pokemons ? y/n");
 
